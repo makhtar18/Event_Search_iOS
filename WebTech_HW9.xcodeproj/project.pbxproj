@@ -14,6 +14,8 @@
 		C8A59F5C29FB132200C0B541 /* WebTech_HW9Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A59F5B29FB132200C0B541 /* WebTech_HW9Tests.swift */; };
 		C8A59F6629FB132200C0B541 /* WebTech_HW9UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A59F6529FB132200C0B541 /* WebTech_HW9UITests.swift */; };
 		C8A59F6829FB132200C0B541 /* WebTech_HW9UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A59F6729FB132200C0B541 /* WebTech_HW9UITestsLaunchTests.swift */; };
+		C8A59F7529FB876700C0B541 /* AutocompleteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A59F7429FB876700C0B541 /* AutocompleteViewModel.swift */; };
+		C8AF781E29FC381400402950 /* AutocompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8AF781D29FC381400402950 /* AutocompleteView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		C8A59F6129FB132200C0B541 /* WebTech_HW9UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebTech_HW9UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A59F6529FB132200C0B541 /* WebTech_HW9UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTech_HW9UITests.swift; sourceTree = "<group>"; };
 		C8A59F6729FB132200C0B541 /* WebTech_HW9UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebTech_HW9UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C8A59F7429FB876700C0B541 /* AutocompleteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteViewModel.swift; sourceTree = "<group>"; };
+		C8AF781D29FC381400402950 /* AutocompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutocompleteView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +101,11 @@
 			children = (
 				C8A59F4929FB132000C0B541 /* WebTech_HW9App.swift */,
 				C8A59F4B29FB132000C0B541 /* ContentView.swift */,
+				C8A59F7429FB876700C0B541 /* AutocompleteViewModel.swift */,
 				C8A59F4D29FB132100C0B541 /* Assets.xcassets */,
 				C8A59F4F29FB132100C0B541 /* WebTech_HW9.entitlements */,
 				C8A59F5029FB132100C0B541 /* Preview Content */,
+				C8AF781D29FC381400402950 /* AutocompleteView.swift */,
 			);
 			path = WebTech_HW9;
 			sourceTree = "<group>";
@@ -260,6 +266,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8A59F4C29FB132000C0B541 /* ContentView.swift in Sources */,
+				C8A59F7529FB876700C0B541 /* AutocompleteViewModel.swift in Sources */,
+				C8AF781E29FC381400402950 /* AutocompleteView.swift in Sources */,
 				C8A59F4A29FB132000C0B541 /* WebTech_HW9App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
