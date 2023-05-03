@@ -11,7 +11,7 @@ import SwiftUI
 struct WebTech_HW9App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreenView()
         }
     }
 }

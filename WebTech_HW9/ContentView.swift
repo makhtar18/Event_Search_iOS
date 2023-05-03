@@ -18,10 +18,29 @@ struct ContentView: View {
     @State var showLocationTextField = true
     @State var noResult = false
     @State var showResultsTable = false
+    @State var isResultsTableLoading = true
+    @StateObject var locationModel = LocationModel()
+    @StateObject var ipInfoModel = IpInfoModel()
+    @StateObject var geocodeModel = GeocodeModel()
+    @StateObject var resultsTableViewModel = ResultsTableViewModel()
+    @State var spinnerId = 0
+
+    var segmentIdDict = ["Music":"KZFzniwnSyZfZ7v7nJ", "Sports":"KZFzniwnSyZfZ7v7nE", "Arts & Theatre": "KZFzniwnSyZfZ7v7na", "Film":"KZFzniwnSyZfZ7v7nn","Miscellaneous":"KZFzniwnSyZfZ7v7n1","Default":""]
+
+    
     var color = #colorLiteral(red: 0.8311056495, green: 0, blue: 0.03866848722, alpha: 1)
 
     var submitColor: Color {
         return (keyword.isEmpty || (location.isEmpty && !autoDetectLocation)) ? Color.gray :  Color.red
+    }
+    var setFavObj: Void{
+        if UserDefaults.standard.data(forKey: "favorites") == nil {
+            let obj:[String:[String]] = [:]
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(obj) {
+                UserDefaults.standard.set(encoded, forKey: "favorites")
+            }
+        }
     }
 
     var body: some View {
@@ -102,23 +121,81 @@ struct ContentView: View {
                         Text("Results")
                             .font(.title)
                             .fontWeight(.bold)
-                        if(noResult){
-                            Text("No result available")
-                                .foregroundColor(
-                                    Color(color)
-                                )
+                        if(isResultsTableLoading){
+                            HStack {
+                                Spacer()
+                                ProgressView("Please wait...")
+                                    .id(spinnerId)
+                                    .onAppear {
+                                        spinnerId += 1
+                                    }
+                                    .frame(alignment: .center)
+                                Spacer()
+                            }
                         }
                         else {
-                            
+                            if(noResult){
+                                Text("No result available")
+                                    .foregroundColor(
+                                        Color(color)
+                                    )
+                            }
+                            else {
+                                ForEach(resultsTableViewModel.resultTableResponse) {resultRow in
+                                    ResultsTableView(resultRow : resultRow)
+                                }
+                            }
                         }
                     }
                 }
             }
             .navigationTitle("Event Search")
+            .toolbar{
+                NavigationLink(destination: FavoriteView()) {
+                    Image(systemName: "heart.circle")
+                        .font(.system(size: 22))
+                }
+            }
         }
     }
     func onFormSubmit() {
-        print("hello")
+        print("Submitting")
+        isResultsTableLoading = true
+        print(distance)
+        var lat = ""
+        var long = ""
+        let segmentId : String = segmentIdDict[category] ?? ""
+        showResultsTable = true
+        Task {
+            if(autoDetectLocation){
+                await ipInfoModel.getData()
+                lat = ipInfoModel.ipInfoResponse.lat
+                long = ipInfoModel.ipInfoResponse.lng
+            }
+            else{
+                locationModel.urlString = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCQtKQ4f9s_mMuNVY44fDCAfValQPITZiw&address="+location.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                await locationModel.getData()
+                lat = String(locationModel.geomResponse.lat)
+                long = String(locationModel.geomResponse.lng)
+                
+            }
+            geocodeModel.urlString = "https://assignment8webtech.uw.r.appspot.com/geohash?lat="+lat+"&long="+long
+            await geocodeModel.getData()
+            let url = "https://assignment8webtech.uw.r.appspot.com/resultsTable?segmentId=\(segmentId)&radius=\(distance)&geoPoint=\(geocodeModel.geocode)&keyword="+keyword.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            resultsTableViewModel.urlString = url
+            await resultsTableViewModel.getData()
+            if(resultsTableViewModel.resultTableResponse.count>0){
+                noResult = false
+            }
+            else {
+                noResult = true
+            }
+            isResultsTableLoading = false
+        }
+        
+        
+        
+        
     }
     func onFormClear() {
         print("Clearing")
@@ -129,8 +206,8 @@ struct ContentView: View {
         autoDetectLocation = false
         showAutocompleteSheet = false
         showLocationTextField = true
-        var showResultsTable = false
-        var noResult = false
+        showResultsTable = false
+        noResult = false
     }
 
 }
@@ -141,3 +218,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
