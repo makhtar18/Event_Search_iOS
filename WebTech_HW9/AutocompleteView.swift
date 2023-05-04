@@ -25,21 +25,32 @@ struct AutocompleteView: View {
                 ProgressView("loading...")
             }
             else {
-                List {
+                VStack{
                     if(autocompleteResponse.autoCompleteResults.count==0){
-                        Text("No matching results found!")
-                            .foregroundColor(Color(#colorLiteral(red: 0.8311056495, green: 0, blue: 0.03866848722, alpha: 1)))
-                    }
-                    ForEach(autocompleteResponse.autoCompleteResults) {result in
-                        VStack {
-                            Text("\(result.name)")
-                                .onTapGesture {
-                                    selectedKeyword = result.name
-                                    dismiss()
-                                }
+                        HStack{
+                            Spacer()
+                            Text("No matching results found")
+                                .font(.title3)
+                                .foregroundColor(Color(#colorLiteral(red: 0.8311056495, green: 0, blue: 0.03866848722, alpha: 1)))
+                            
+                            Spacer()
                         }
                     }
-                    
+                    else {
+                        List {
+                            ForEach(autocompleteResponse.autoCompleteResults) {result in
+                                VStack {
+                                    Text("\(result.name)")
+                                        .onTapGesture {
+                                            selectedKeyword = result.name
+                                            dismiss()
+                                        }
+                                }
+                            }
+                            
+                        }
+                        
+                    }
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -64,7 +75,7 @@ struct AutocompleteView: View {
 
 struct AutocompleteView_Previews: PreviewProvider {
     static var previews: some View {
-        @State var selectedKeyword: String = ""
+        @State var selectedKeyword: String = "fffggghh"
         AutocompleteView(selectedKeyword: $selectedKeyword)
     }
 }

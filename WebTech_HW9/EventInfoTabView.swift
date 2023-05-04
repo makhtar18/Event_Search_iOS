@@ -11,6 +11,8 @@ import Kingfisher
 struct EventInfoTabView: View {
     var eventInfoResponse: EventInfoResponseModel
     @State var addedToFav: Bool = false
+    @State var liked = false
+    @State var addOrRemoveText = ""
     var eventRow : [String]
     let ticketStatusColor = ["onsale": Color.green, "offsale":Color.red, "cancelled":Color.black, "postponed":Color.orange, "rescheduled":Color.orange]
     let ticketStatusText = ["onsale":"On Sale", "offsale":"Off Sale", "cancelled":"Cancelled", "postponed":"Postponed", "rescheduled":"Rescheduled"]
@@ -22,11 +24,14 @@ struct EventInfoTabView: View {
         return (addedToFav) ? "Remove From Favorites" :  "Save Event"
     }
     func onAddRemoveFromFav(){
+            liked = true
             var favObj = eventInfoObj
             if(addedToFav){
+                addOrRemoveText = "Remove Favorite"
                 favObj.removeValue(forKey: eventInfoResponse.id)
             }
             else{
+                addOrRemoveText = "Added to favorites."
                 favObj[eventInfoResponse.id] = eventRow
             }
             let encoder = JSONEncoder()
@@ -38,16 +43,6 @@ struct EventInfoTabView: View {
   
     var body: some View {
             VStack{
-                /*ScrollView() {
-                    HStack{
-                        Spacer()
-                        Text(eventInfoResponse.eventName)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        Spacer()
-                    }
-                }*/
                 Text(eventInfoResponse.eventName)
                     .font(.title)
                     .fontWeight(.bold)
@@ -67,6 +62,7 @@ struct EventInfoTabView: View {
                             .fontWeight(.bold)
                         Text(eventInfoResponse.artist)
                             .foregroundColor(.secondary)
+                            .frame(maxWidth: 200)
                     }
                 }.padding(1)
                 HStack{
@@ -82,6 +78,7 @@ struct EventInfoTabView: View {
                             .fontWeight(.bold)
                         Text(eventInfoResponse.genres)
                             .foregroundColor(.secondary)
+                            .frame(maxWidth: 200)
                     }
                 }.padding(1)
                 HStack{
@@ -149,11 +146,12 @@ struct EventInfoTabView: View {
                 }.padding(1)
                 
             }
+            .toast(isShowing: $liked, text: Text("\(addOrRemoveText)"))
             .padding(10)
             .onAppear(){
                 if let data = UserDefaults.standard.data(forKey: "favorites") {
                     let decoder = JSONDecoder()
-                    if var decoded = try? decoder.decode([String:[String]].self, from: data) {
+                    if let decoded = try? decoder.decode([String:[String]].self, from: data) {
                         if(decoded.count>0){
                             if(decoded[eventInfoResponse.id] != nil){
                             addedToFav = true

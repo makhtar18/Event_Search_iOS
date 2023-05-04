@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     let categories = ["Default", "Music", "Sports", "Arts & Theatre", "Film", "Miscellaneus"]
     @State var keyword = ""
-    @State var distance = 10
+    @State var distance = "10"
     @State var category = "Default"
     @State var location = ""
     @State var autoDetectLocation = false
@@ -51,19 +51,21 @@ struct ContentView: View {
                         Text("Keyword:").foregroundColor(.secondary)
                         Spacer()
                         TextField("Required", text:$keyword)
-                        .onSubmit{
-                            Task {
-                                showAutocompleteSheet = true
+                            .onSubmit{
+                                Task {
+                                    showAutocompleteSheet = true
+                                }
                             }
-                        }
-                        .sheet(isPresented: $showAutocompleteSheet){
-                            AutocompleteView(selectedKeyword: $keyword)
-                        }
+                            .sheet(isPresented: $showAutocompleteSheet){
+                                AutocompleteView(selectedKeyword: $keyword)
+                            }
                     }
                     HStack {
                         Text("Distance:").foregroundColor(.secondary)
                         Spacer()
-                        TextField("10", value:$distance, format: .number)
+                        /*TextField("10", value:$distance, format: .number)*/
+                        TextField("10", text: $distance)
+                            .keyboardType(.decimalPad)
                     }
                     Picker("Category:", selection:$category) {
                         ForEach(categories, id: \.self) {
@@ -93,12 +95,13 @@ struct ContentView: View {
                     HStack {
                         Spacer()
                         Button(action: onFormSubmit){
-                           Text("Submit")
+                            Text("Submit")
                         }
                         .frame(width:115, height: 50)
                         .background(submitColor)
                         .foregroundColor(Color.white)
                         .cornerRadius(8)
+                        .buttonStyle(BorderlessButtonStyle())
                         .disabled(keyword.isEmpty || (location.isEmpty && !autoDetectLocation))
                         
                         Spacer()
@@ -111,38 +114,40 @@ struct ContentView: View {
                         .background(Color.blue)
                         .foregroundColor(Color.white)
                         .cornerRadius(8)
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(BorderlessButtonStyle())
                         Spacer()
                     }.padding(10)
                     
-                }
-                if(showResultsTable){
-                    List{
-                        Text("Results")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        if(isResultsTableLoading){
-                            HStack {
-                                Spacer()
-                                ProgressView("Please wait...")
-                                    .id(spinnerId)
-                                    .onAppear {
-                                        spinnerId += 1
+                    Section{
+                        if(showResultsTable){
+                            List{
+                                Text("Results")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                if(isResultsTableLoading){
+                                    HStack {
+                                        Spacer()
+                                        ProgressView("Please wait...")
+                                            .id(spinnerId)
+                                            .onAppear {
+                                                spinnerId += 1
+                                            }
+                                            .frame(alignment: .center)
+                                        Spacer()
                                     }
-                                    .frame(alignment: .center)
-                                Spacer()
-                            }
-                        }
-                        else {
-                            if(noResult){
-                                Text("No result available")
-                                    .foregroundColor(
-                                        Color(color)
-                                    )
-                            }
-                            else {
-                                ForEach(resultsTableViewModel.resultTableResponse) {resultRow in
-                                    ResultsTableView(resultRow : resultRow)
+                                }
+                                else {
+                                    if(noResult){
+                                        Text("No result available")
+                                            .foregroundColor(
+                                                Color(color)
+                                            )
+                                    }
+                                    else {
+                                        ForEach(resultsTableViewModel.resultTableResponse) {resultRow in
+                                            ResultsTableView(resultRow : resultRow)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -161,7 +166,10 @@ struct ContentView: View {
     func onFormSubmit() {
         print("Submitting")
         isResultsTableLoading = true
-        print(distance)
+        if(distance.isEmpty){
+            distance="10"
+            print(distance)
+        }
         var lat = ""
         var long = ""
         let segmentId : String = segmentIdDict[category] ?? ""
@@ -200,7 +208,7 @@ struct ContentView: View {
     func onFormClear() {
         print("Clearing")
         keyword = ""
-        distance = 10
+        distance = "10"
         category = "Default"
         location = ""
         autoDetectLocation = false

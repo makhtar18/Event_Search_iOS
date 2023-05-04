@@ -29,6 +29,7 @@ struct VenueDetailsTabView: View {
                     .multilineTextAlignment(.center)
                 Text(venueResponseModel.name)
                     .multilineTextAlignment(.center)
+                    .foregroundColor(.secondary)
             }
             .padding(.bottom,1)
             if(venueResponseModel.showAddress){
@@ -39,6 +40,7 @@ struct VenueDetailsTabView: View {
                         .multilineTextAlignment(.center)
                     Text(venueResponseModel.address)
                         .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
                 }
                 .padding(.bottom,1)
             }
@@ -50,19 +52,24 @@ struct VenueDetailsTabView: View {
                         .multilineTextAlignment(.center)
                     Text(venueResponseModel.phoneNumber)
                         .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
                 }
-                .padding(.bottom,1)
+                .padding(.bottom,1.5)
             }
             if(venueResponseModel.showOpenHours){
-                VStack{
-                    Text("Open Hours")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                    Text(venueResponseModel.openHours)
-                        .multilineTextAlignment(.center)
+                ScrollView {
+                    VStack{
+                        Text("Open Hours")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+                        Text(venueResponseModel.openHours)
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
+                    }
                 }
-                .padding(.bottom,30)
+                .frame(maxHeight: 90)
+                .padding(.bottom, 30)
             }
             if(venueResponseModel.showGeneralRule){
                 ScrollView {
@@ -73,9 +80,11 @@ struct VenueDetailsTabView: View {
                             .multilineTextAlignment(.center)
                         Text(venueResponseModel.generalRule)
                             .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
                     }
                 }
                 .frame(maxHeight: 90)
+                .padding(.bottom, 5)
             }
             if(venueResponseModel.showChildRule){
                 ScrollView {
@@ -86,6 +95,7 @@ struct VenueDetailsTabView: View {
                             .multilineTextAlignment(.center)
                         Text(venueResponseModel.childRule)
                             .multilineTextAlignment(.center)
+                            .foregroundColor(.secondary)
                     }
                 }
                 .frame(maxHeight: 90)
@@ -105,7 +115,7 @@ struct VenueDetailsTabView: View {
             Spacer()
         }
         .frame(alignment: .leading)
-        .padding(20)
+        .padding(.horizontal,20)
     }
 }
 

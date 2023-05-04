@@ -13,7 +13,7 @@ struct ArtistsTabView: View {
     var body: some View {
         if(musicRelatedArtists.count==0){
             Text("No music related artist details to show")
-                .font(.title)
+                .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
         }
