@@ -8,7 +8,7 @@
 import SwiftUI
     
 struct ContentView: View {
-    let categories = ["Default", "Music", "Sports", "Arts & Theatre", "Film", "Miscellaneus"]
+    let categories = ["Default", "Music", "Sports", "Arts & Theatre", "Film", "Miscellaneous"]
     @State var keyword = ""
     @State var distance = "10"
     @State var category = "Default"

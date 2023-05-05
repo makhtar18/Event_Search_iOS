@@ -11,7 +11,7 @@ import Kingfisher
 struct ResultsTableView: View {
     var resultRow: ResultsTableResponseModel
     var eventRow: [String]{
-        return [resultRow.date, resultRow.event, resultRow.genre, resultRow.venue]
+        return [resultRow.date, resultRow.event, resultRow.genre, resultRow.venue, resultRow.eventId]
     }
     var body: some View {
         NavigationLink(destination: ThreeTabView(eventId: resultRow.eventId, eventRow: eventRow)){

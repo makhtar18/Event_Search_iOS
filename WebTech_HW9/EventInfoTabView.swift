@@ -17,6 +17,7 @@ struct EventInfoTabView: View {
     let ticketStatusColor = ["onsale": Color.green, "offsale":Color.red, "cancelled":Color.black, "postponed":Color.orange, "rescheduled":Color.orange]
     let ticketStatusText = ["onsale":"On Sale", "offsale":"Off Sale", "cancelled":"Cancelled", "postponed":"Postponed", "rescheduled":"Rescheduled"]
     @State var eventInfoObj : [String:[String]] = [:]
+    @State var favIndex: Int = 0
     var eventButtonColor: Color {
         return (addedToFav) ? Color.red :  Color.blue
     }
@@ -28,11 +29,11 @@ struct EventInfoTabView: View {
             var favObj = eventInfoObj
             if(addedToFav){
                 addOrRemoveText = "Remove Favorite"
-                favObj.removeValue(forKey: eventInfoResponse.id)
+                favObj.removeValue(forKey: eventRow[4])
             }
             else{
                 addOrRemoveText = "Added to favorites."
-                favObj[eventInfoResponse.id] = eventRow
+                favObj[eventRow[4]] = eventRow
             }
             let encoder = JSONEncoder()
             if let encoded = try? encoder.encode(favObj) {
@@ -62,7 +63,8 @@ struct EventInfoTabView: View {
                             .fontWeight(.bold)
                         Text(eventInfoResponse.artist)
                             .foregroundColor(.secondary)
-                            .frame(maxWidth: 200)
+                            .lineLimit(1)
+                            .padding(.leading,50)
                     }
                 }.padding(1)
                 HStack{
@@ -78,7 +80,8 @@ struct EventInfoTabView: View {
                             .fontWeight(.bold)
                         Text(eventInfoResponse.genres)
                             .foregroundColor(.secondary)
-                            .frame(maxWidth: 200)
+                            .lineLimit(1)
+                            .padding(.leading,50)
                     }
                 }.padding(1)
                 HStack{
@@ -152,9 +155,10 @@ struct EventInfoTabView: View {
                 if let data = UserDefaults.standard.data(forKey: "favorites") {
                     let decoder = JSONDecoder()
                     if let decoded = try? decoder.decode([String:[String]].self, from: data) {
+                        favIndex = decoded.count
                         if(decoded.count>0){
-                            if(decoded[eventInfoResponse.id] != nil){
-                            addedToFav = true
+                            if(decoded[eventRow[4]] != nil){
+                                addedToFav = true
                             }
                         }
                         eventInfoObj = decoded
@@ -167,6 +171,7 @@ struct EventInfoTabView: View {
 struct EventInfoTabView_Previews: PreviewProvider {
     static var previews: some View {
         @State var eventInfoResponse = EventInfoResponseModel(date: "2023-08-16 18:30:00",dateWithoutTime: "2023-08-16",artist: "P!NK | Brandi Carlile | Grouplove | KidCutUp",venue: "Comerica Park",genres: "Music | Rock | Pop",priceRanges: "40.95 - 344.95 USD",ticketStatus: "onsale",buyTicketAt: "https://www.ticketmaster.com/pnk-summer-carnival-2023-detroit-michigan-08-16-2023/event/08005D68E5374041",seatMap: "https://maps.ticketmaster.com/maps/geometry/3/event/08005D68E5374041/staticImage?type=png&systemId=HOST",artists: ["P!NK","Brandi Carlile","Grouplove","KidCutUp"],musicRelatedArtists: ["P!NK","Brandi Carlile","Grouplove","KidCutUp"],eventName: "P!NK: Summer Carnival 2023",error: "")
-        EventInfoTabView(eventInfoResponse: eventInfoResponse, eventRow: ["2013-04-01|16:00:00","https://yt3.googleusercontent.com/RNzGvruAX9d_qsOgZzen1qvSCEDg_Hta8kimglTlyB12_1nZGDa3edRxyDQMWFrKEvPZpsCt6Q=s900-c-k-c0x00ffffff-no-rj","Twice","Sofi Stadium"])
+        @State var eventRow = ["2013-04-01|16:00:00","https://yt3.googleusercontent.com/RNzGvruAX9d_qsOgZzen1qvSCEDg_Hta8kimglTlyB12_1nZGDa3edRxyDQMWFrKEvPZpsCt6Q=s900-c-k-c0x00ffffff-no-rj","Twice","Sofi Stadium","vvG1IZ9KBiqNAT"]
+        EventInfoTabView(eventInfoResponse: eventInfoResponse, eventRow: eventRow)
     }
 }

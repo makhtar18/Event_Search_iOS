@@ -16,6 +16,7 @@ struct ThreeTabView: View {
     @StateObject var venueInfo = VenueViewModel()
     
     func getEventInfo() async{
+        eventInfo.eventId = eventId
         eventInfo.urlString = "https://assignment8webtech.uw.r.appspot.com/eventsInfo?eventId="+eventId
         await eventInfo.getData()
     }
@@ -73,6 +74,7 @@ struct ThreeTabView: View {
 
 struct ThreeTabView_Previews: PreviewProvider {
     static var previews: some View {
-        ThreeTabView(eventId: "vvG1IZ9KBiqNAT", eventRow: [])
+        @State var eventRow = ["2013-04-01|16:00:00","https://yt3.googleusercontent.com/RNzGvruAX9d_qsOgZzen1qvSCEDg_Hta8kimglTlyB12_1nZGDa3edRxyDQMWFrKEvPZpsCt6Q=s900-c-k-c0x00ffffff-no-rj","Twice","Sofi Stadium","vvG1IZ9KBiqNAT"]
+        ThreeTabView(eventId: "vvG1IZ9KBiqNAT", eventRow: eventRow)
     }
 }

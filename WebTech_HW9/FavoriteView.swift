@@ -44,9 +44,9 @@ struct FavoriteView: View {
                                 Text(favRow[3])
                                     .padding(0.5)
                             }
+                            .background( NavigationLink("", destination: ThreeTabView(eventId: favRow[4], eventRow: favRow)).opacity(0) )
                         }
                         .onDelete(perform: deleteFavRow)
-                        
                     }
                 }
                 else {
@@ -59,6 +59,8 @@ struct FavoriteView: View {
         }
         .navigationTitle("Favorites")
         .onAppear(){
+            favResults = []
+            showfavTable = false
             if let data = UserDefaults.standard.data(forKey: "favorites") {
                 let decoder = JSONDecoder()
                 if let decoded = try? decoder.decode([String:[String]].self, from: data) {
@@ -67,9 +69,7 @@ struct FavoriteView: View {
                         eventIdDict = decoded
                     }
                     decoded.forEach { key, value in
-                        var lst = value
-                        lst.append(key)
-                        favResults.append(lst)
+                        favResults.append(value)
                     }
                 }
             }

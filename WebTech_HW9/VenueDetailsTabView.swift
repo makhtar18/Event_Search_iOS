@@ -57,48 +57,50 @@ struct VenueDetailsTabView: View {
                 .padding(.bottom,1.5)
             }
             if(venueResponseModel.showOpenHours){
-                ScrollView {
-                    VStack{
+                    VStack(spacing: 0){
                         Text("Open Hours")
                             .font(.title3)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
-                        Text(venueResponseModel.openHours)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.secondary)
+                        ScrollView{
+                            Text(venueResponseModel.openHours)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxHeight: 70)
                     }
-                }
-                .frame(maxHeight: 90)
-                .padding(.bottom, 30)
+                    .padding(.bottom, 10)
             }
             if(venueResponseModel.showGeneralRule){
-                ScrollView {
-                    VStack{
+                VStack(spacing: 0){
                         Text("General Rule")
                             .font(.title3)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
-                        Text(venueResponseModel.generalRule)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.secondary)
+                        ScrollView{
+                            Text(venueResponseModel.generalRule)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxHeight: 70)
                     }
-                }
-                .frame(maxHeight: 90)
+                
                 .padding(.bottom, 5)
             }
             if(venueResponseModel.showChildRule){
-                ScrollView {
-                    VStack{
+                VStack(spacing: 0){
                         Text("Child Rule")
                             .font(.title3)
                             .fontWeight(.bold)
                             .multilineTextAlignment(.center)
-                        Text(venueResponseModel.childRule)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.secondary)
+                        ScrollView{
+                            Text(venueResponseModel.childRule)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxHeight: 70)
                     }
-                }
-                .frame(maxHeight: 90)
+                
             }
             Button(action: showMaps, label:{
                 Text("Show venue on maps")

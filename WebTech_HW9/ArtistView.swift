@@ -66,7 +66,7 @@ struct ArtistView: View {
                             }
                             
                         }
-                        .frame(width: 131 ,height: 130)
+                        .frame(width: 135 ,height: 130)
                         VStack{
                             Text("Popularity")
                                 .font(.title3)
@@ -118,7 +118,7 @@ struct ArtistView: View {
 
 struct ArtistView_Previews: PreviewProvider {
     static var previews: some View {
-        var musicRelatedArtists = MusicRelatedArtists(external_urls: External_urls(spotify: "https://open.spotify.com/artist/1KCSPY1glIKqW2TotWuXOR"), followers: Followers(total: 115020813
+        let musicRelatedArtists = MusicRelatedArtists(external_urls: External_urls(spotify: "https://open.spotify.com/artist/1KCSPY1glIKqW2TotWuXOR"), followers: Followers(total: 115020813
 ), name: "P!nk", popularity: 83, images: [Images(height: 640, url: "https://i.scdn.co/image/ab6761610000e5eb7bbad89a61061304ec842588", width: 640)], id: "1KCSPY1glIKqW2TotWuXOR")
         
         ArtistView(musicRelatedArtists: musicRelatedArtists , spotifyAlbumnImages: [SpotifyAlbumnResponse(images:[Images(height: 640, url: "https://i.scdn.co/image/ab67616d0000b2735b8cf73dd4eebd286d9a2c78", width: 640)]), SpotifyAlbumnResponse(images:[Images(height: 640, url: "https://i.scdn.co/image/ab67616d0000b2735b8cf73dd4eebd286d9a2c78", width: 640)]), SpotifyAlbumnResponse(images:[Images(height: 640, url: "https://i.scdn.co/image/ab67616d0000b2735b8cf73dd4eebd286d9a2c78", width: 640)])])

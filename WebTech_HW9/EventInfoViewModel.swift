@@ -29,6 +29,7 @@ extension EventInfoResponseModel: Identifiable {
 }
 
 class EventInfoViewModel: ObservableObject{
+    @Published var eventId = ""
     @Published var urlString = "https://assignment8webtech.uw.r.appspot.com/eventsInfo?eventId="
     @Published var eventInfoResponse : EventInfoResponseModel = EventInfoResponseModel(date: "",dateWithoutTime: "",artist: "",venue: "",genres: "",priceRanges: "",ticketStatus: "",buyTicketAt: "buyTicket1",seatMap: "",artists: [],musicRelatedArtists: [],eventName: "",error: "")
     
