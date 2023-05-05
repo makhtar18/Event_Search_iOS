@@ -16,6 +16,12 @@ struct FavoriteView: View {
     func deleteFavRow(offsets: IndexSet) {
         withAnimation {
             let index = offsets.first!
+            for i in (index + 1)..<favResults.count{
+                var str = Int(favResults[i][5])!-1
+                print(str)
+                favResults[i][5] = "\(str)"
+                eventIdDict[favResults[i][4]] = favResults[i]
+            }
             eventIdDict.removeValue(forKey: favResults[index][4])
             favResults.remove(at: index)
             let encoder = JSONEncoder()
@@ -67,9 +73,13 @@ struct FavoriteView: View {
                     if(decoded.count>0){
                         showfavTable = true
                         eventIdDict = decoded
+                        favResults = Array(repeating: [], count: decoded.count)
                     }
                     decoded.forEach { key, value in
-                        favResults.append(value)
+                        print(value[2]+" "+value[5])
+                        print(favResults.count)
+                        let index = Int(value[5])!
+                        favResults[index] = value
                     }
                 }
             }

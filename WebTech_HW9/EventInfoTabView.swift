@@ -26,17 +26,30 @@ struct EventInfoTabView: View {
     }
     func onAddRemoveFromFav(){
             liked = true
-            var favObj = eventInfoObj
+            print("hello")
+            //var favObj = eventInfoObj
             if(addedToFav){
+                print("hello")
+                let index = Int(eventInfoObj[eventRow[4]]![5])!
+                eventInfoObj.forEach { key, value in
+                    var favRow = value
+                    let orVal = Int(value[5])! - 1
+                    if((orVal+1)>index){
+                        favRow[5] = "\(orVal)"
+                        eventInfoObj[key] = favRow
+                    }
+                }
                 addOrRemoveText = "Remove Favorite"
-                favObj.removeValue(forKey: eventRow[4])
+                eventInfoObj.removeValue(forKey: eventRow[4])
             }
             else{
                 addOrRemoveText = "Added to favorites."
-                favObj[eventRow[4]] = eventRow
+                var favEventRow : [String] = eventRow
+                favEventRow.append("\(favIndex)")
+                eventInfoObj[eventRow[4]] = favEventRow
             }
             let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(favObj) {
+            if let encoded = try? encoder.encode(eventInfoObj) {
                 UserDefaults.standard.set(encoded, forKey: "favorites")
             }
             addedToFav = !addedToFav
@@ -171,7 +184,7 @@ struct EventInfoTabView: View {
 struct EventInfoTabView_Previews: PreviewProvider {
     static var previews: some View {
         @State var eventInfoResponse = EventInfoResponseModel(date: "2023-08-16 18:30:00",dateWithoutTime: "2023-08-16",artist: "P!NK | Brandi Carlile | Grouplove | KidCutUp",venue: "Comerica Park",genres: "Music | Rock | Pop",priceRanges: "40.95 - 344.95 USD",ticketStatus: "onsale",buyTicketAt: "https://www.ticketmaster.com/pnk-summer-carnival-2023-detroit-michigan-08-16-2023/event/08005D68E5374041",seatMap: "https://maps.ticketmaster.com/maps/geometry/3/event/08005D68E5374041/staticImage?type=png&systemId=HOST",artists: ["P!NK","Brandi Carlile","Grouplove","KidCutUp"],musicRelatedArtists: ["P!NK","Brandi Carlile","Grouplove","KidCutUp"],eventName: "P!NK: Summer Carnival 2023",error: "")
-        @State var eventRow = ["2013-04-01|16:00:00","https://yt3.googleusercontent.com/RNzGvruAX9d_qsOgZzen1qvSCEDg_Hta8kimglTlyB12_1nZGDa3edRxyDQMWFrKEvPZpsCt6Q=s900-c-k-c0x00ffffff-no-rj","Twice","Sofi Stadium","vvG1IZ9KBiqNAT"]
+        @State var eventRow = ["2013-04-01|16:00:00","https://yt3.googleusercontent.com/RNzGvruAX9d_qsOgZzen1qvSCEDg_Hta8kimglTlyB12_1nZGDa3edRxyDQMWFrKEvPZpsCt6Q=s900-c-k-c0x00ffffff-no-rj","Pink","Sofi Stadium","vvG1IZ9KBiqNAT"]
         EventInfoTabView(eventInfoResponse: eventInfoResponse, eventRow: eventRow)
     }
 }
