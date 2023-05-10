@@ -38,19 +38,20 @@ struct FavoriteView: View {
                 if(showfavTable){
                     List{
                         ForEach(favResults, id: \.self) { favRow in
-                            HStack {
-                                Text(favRow[0])
-                                    .padding(0.5)
-                                    .frame(width:100)
-                                Text(favRow[1])
-                                    .lineLimit(2)
-                                    .padding(0.5)
-                                Text(favRow[2])
-                                    .padding(0.5)
-                                Text(favRow[3])
-                                    .padding(0.5)
+                            NavigationLink(destination: ThreeTabView(eventId: favRow[4], eventRow: favRow)) {
+                                HStack {
+                                    Text(favRow[0])
+                                        .padding(0.5)
+                                        .frame(width:100)
+                                    Text(favRow[1])
+                                        .lineLimit(2)
+                                        .padding(0.5)
+                                    Text(favRow[2])
+                                        .padding(0.5)
+                                    Text(favRow[3])
+                                        .padding(0.5)
+                                }
                             }
-                            .background( NavigationLink("", destination: ThreeTabView(eventId: favRow[4], eventRow: favRow)).opacity(0) )
                         }
                         .onDelete(perform: deleteFavRow)
                     }
